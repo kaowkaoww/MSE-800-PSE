@@ -1,0 +1,77 @@
+import pandas as pd
+from PIL import Image
+import os
+
+class FileProcessor:
+    def __init__(self, file_path):
+        self.file_path = file_path
+
+    def load_data(self):
+        raise NotImplementedError("This method should be used in subclasses")
+
+    def process(self):
+        raise NotImplementedError("This method should be used in subclasses")
+
+class CSVProcessor(FileProcessor):
+    def load_data(self):
+        self.data = pd.read_csv(self.file_path)
+        print(f"Loaded CSV file: {self.file_path}")
+        return self.data
+
+    def process(self):
+        print("CSV File Summary:")
+        print(self.data.info())
+        print(self.data.describe())
+        print("Missing values:\n", self.data.isnull().sum())
+
+class TextProcessor(FileProcessor):
+    def load_data(self):
+        with open(self.file_path, 'r', encoding='utf-8') as f:
+            self.data = f.read()
+        print(f"Loaded text file: {self.file_path}")
+        return self.data
+
+    def process(self):
+        print("Text file content:")
+        print(self.data[:500])
+
+class ImageProcessor(FileProcessor):
+    def load_data(self):
+        self.image = Image.open(self.file_path)
+        print(f"Loaded image file: {self.file_path}")
+        return self.image
+
+    def process(self):
+        print("Image file details:")
+        print(f"Format: {self.image.format}")
+        print(f"Size: {self.image.size}")
+        print(f"Mode: {self.image.mode}")
+
+class DataFileFormat_Processor:
+    def __init__(self, file_path):
+        self.file_path = file_path
+        self.processor = self.select_processor()
+
+    def select_processor(self):
+        ext = os.path.splitext(self.file_path)[-1].lower()
+        if ext == '.csv':
+            return CSVProcessor(self.file_path)
+        elif ext == '.txt':
+            return TextProcessor(self.file_path)
+        elif ext in ['.jpg', '.jpeg', '.png']:
+            return ImageProcessor(self.file_path)
+        else:
+            raise ValueError(f"Unsupported file format: {ext}")
+
+    def execute(self):
+        if self.processor:
+            self.processor.load_data()
+            self.processor.process()
+
+def main():
+    file_path = '/Users/manisa/Desktop/Firstcoding/sample_junk_mail.csv'
+    processor = DataFileFormat_Processor(file_path)
+    processor.execute()
+
+if __name__ == "__main__":
+    main()

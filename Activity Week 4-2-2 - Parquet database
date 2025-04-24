@@ -1,0 +1,7 @@
+#See attached file, how many records are available?
+
+import pandas as pd
+df = pd.read_parquet("/Users/manisa/Downloads/Sample_data_2.parquet")
+print("Number of records : ", len(df))
+
+
