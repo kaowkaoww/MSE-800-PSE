@@ -5,17 +5,15 @@ Each row represents a student, and each column represents a subject.
 This activity demonstrates how to analyze student test scores using NumPy with a 2D array.  
 Each row in the array represents a student, and each column represents a subject.
 
-The program performs the following tasks:
-
-1. Calculates and prints the average score for each student.
-2. Calculates and prints the average score for each subject.
-3. Identifies the student (row index) with the highest total score and displays their total and individual subject scores.
-4. Adds 5 bonus points to the third subject (for all students) and displays the updated score array.
+This activity helped me practice basic data analysis using Python and NumPy, especially working with arrays and understanding how to manipulate data without using loops everywhere.
 
 ## What I Learned
 
-- How to calculate the average using `np.mean()` across rows and columns.
-- How to calculate total scores with `np.sum()`.
-- How to find the index of the highest scoring student with `np.argmax()`.
-- How to use array slicing and broadcasting to modify specific parts of the array.  
-  For example, `scores[:, 2] += 5` means: go to column 2 (the third subject) for all students, and add 5 points to each score.
+1. Calculates and prints the average score for each student by using np.mean() to find averages across rows (per student) and columns (per subject)
+2. Calculates and prints the average score for each subject by using np.argmax() to find the student with the highest score
+3. Identifies the student (row index) with the highest total score and displays their total and individual subject scores by using np.argmax() to find the student with the highest score
+4. Adds 5 bonus points to the third subject (for all students) and displays the updated score array by using `scores[:, 2] += 5` means: go to column 2 (the third subject) for all students, and add 5 points to each score.
+
+## extra thoughts
+At first, I wasn’t sure how to calculate things like “average by row” or “total by row” without using loops.
+But NumPy makes it super easy once I understood how to use axis=0 and axis=1. It was also really cool learning how to update specific subjects without needing to write extra for loops. This exercise made me feel more confident in using NumPy for simple data analysis, and I think it’s a good foundation for bigger data projects in the future.
