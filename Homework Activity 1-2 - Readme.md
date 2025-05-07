@@ -16,8 +16,4 @@ This activity helped me practice basic data analysis using Python and NumPy, esp
 
 ## extra thoughts
 At first, I wasn’t sure how to calculate things like “average by row” or “total by row” without using loops.
-<<<<<<< HEAD
 But NumPy makes it super easy once I understood how to use axis=0 and axis=1. It was also really cool learning how to update specific subjects without needing to write extra for loops. This exercise made me feel more confident in using NumPy for simple data analysis, and I think it’s a good foundation for bigger data projects in the future.
-=======
-But NumPy makes it super easy once I understood how to use axis=0 and axis=1. It was also really cool learning how to update specific subjects without needing to write extra for loops. This exercise made me feel more confident in using NumPy for simple data analysis, and I think it’s a good foundation for bigger data projects in the future.
->>>>>>> 5da9e6b (update activity 1.2)
