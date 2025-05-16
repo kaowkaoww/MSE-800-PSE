@@ -11,7 +11,7 @@ The admin of restaurants can manage table availability, bookings and payments (e
 
 The use case descriptions
 Actors : 	1. Customer
-            	2. Admis
+            	2. Admin
 
 Main uses cases : 
 	        1. View branches (4 branches)
