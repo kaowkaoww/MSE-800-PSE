@@ -11,34 +11,37 @@ The admin of restaurants can manage table availability, bookings and payments (e
 
 The use case descriptions
 Actors : 	1. Customer
-            2. Admis
+            	2. Admis
 
 Main uses cases : 
 	        1. View branches (4 branches)
-			2. View availability date/time
-			3. Book table 
-			4. Fill in customer information (Name, Phone number, E-mail)
-			5. Calculating fee
-            6. Make a payment
-			7. Confirm reservation (via e-mail)
-			8. View bookings
-            9. Manage bookings
-            10. Manage availability
-			11. Manage booking status
+		2. View availability date/time
+		3. Book table 
+		4. Fill in customer information (Name, Phone number, E-mail)
+		5. Calculating fee
+            	6. Make a payment
+		7. Confirm reservation (via e-mail)
+		8. View bookings
+            	9. Manage bookings
+           	10. Manage availability
+		11. Manage booking status
 
 Pre-condition : 
       The customers no need to register and log-in to the system
       The admin needs to log-in to the system to manage all of functions
 
 Main flow :
- 	  	    1. Customer selects the preferred restaurant branch
-			2. Customer selects the preferred date and time
-            3. Customer fills in the information such as Name, Phone number, Email, Number of guests and any special notes (special events/dietary requirements)
-            4. System calculates reservation fee
-            5. Customer is redirected to the payment gateway to complete the reservation payment
-            6. After successful payment, the system send the reservation confirm email
-            7. Admins need to log-in to the system to view/manage bookings and manage availability
+ 	  	1. Customer selects the preferred restaurant branch
+		2. Customer selects the preferred date and time
+            	3. Customer fills in the information such as Name, Phone number, Email, Number of guests and any special notes (special events/dietary requirements)
+            	4. System calculates reservation fee
+            	5. Customer is redirected to the payment gateway to complete the reservation payment
+            	6. After successful payment, the system send the reservation confirm email
+            	7. Admins need to log-in to the system to view/manage bookings and manage availability
  
 Post-condition : The table is reserved and was marked as unavailable
+
+![Use Case Diagram for online paid table booking system in chain restaurants-3](https://github.com/user-attachments/assets/02a73d77-b27e-4ce2-b367-e874d2c761e6)
+
 
 
