@@ -1,0 +1,20 @@
+import datetime
+
+def get_current_timestamp():
+    """Return the current timestamp formatted as a string."""
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+def format_log_message(timestamp, event_type, user_id, message):
+    """Format the log message with timestamp, event type, user ID, and message."""
+    return f"[{timestamp}] [{event_type}] User: {user_id} - {message}\n"
+
+def write_log_to_file(log_message, file_name="rental_log.txt"):
+    """Append the log message to the specified file."""
+    with open(file_name, "a") as log_file:
+        log_file.write(log_message)
+
+def log_event(event_type, user_id, message):
+    """Logs an event by composing helper functions."""
+    timestamp = get_current_timestamp()
+    log_message = format_log_message(timestamp, event_type, user_id, message)
+    write_log_to_file(log_message)

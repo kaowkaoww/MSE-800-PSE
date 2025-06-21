@@ -1,0 +1,42 @@
+
+
+class Company:
+    def __init__(self, name):
+        self.name = name
+    
+    def company_info(self):
+        print(f"Company Name: {self.name}")
+
+class Employee(Company):
+    def __init__(self, name, emp_id, department):
+        super().__init__(name) # Call parent class constructor
+        self.emp_id = emp_id
+        self.department = department
+    
+    def employee_info(self):
+        print(f"Employee ID: {self.emp_id}, Department: {self.department}")
+
+class Developer(Employee):
+    def __init__(self, name, emp_id, department, language):
+        super().__init__(name, emp_id, department) # Call parent class constructor
+        self.language = language
+    
+    def developer_info(self):
+        print(f"Programming Language: {self.language}")
+
+class AIEngineer(Developer):
+    def __init__(self, name, emp_id, department, language, ml_framework):
+        super().__init__(name, emp_id, department, language) # Call parent class constructor
+        self.ml_framework = ml_framework
+    
+    def ai_engineer_info(self):
+        print(f"Uses ML Framework: {self.ml_framework}")
+
+#Creating an object of AIEngineer
+engineer = AIEngineer("OpenAI Inc.","1024","R&D","Python","TensorFlow")
+
+#Accessing methods from all levels
+engineer.company_info()  # From Company
+engineer.employee_info()  # From Employee
+engineer.developer_info()  # From Developer
+engineer.ai_engineer_info()  # From AIEngineer

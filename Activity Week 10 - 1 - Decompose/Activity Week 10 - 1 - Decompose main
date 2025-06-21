@@ -1,0 +1,6 @@
+from log_utils import log_event
+
+# Example calls to test the decomposed log_event function
+log_event("INFO", "user123", "Car rental started")
+log_event("WARNING", "user456", "Late return detected")
+log_event("ERROR", "user789", "Payment processing failed")

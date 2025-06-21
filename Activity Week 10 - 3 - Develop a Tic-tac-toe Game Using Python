@@ -1,0 +1,329 @@
+"""
+Tic-Tac-Toe Game
+A classic two-player game using top-down design and functional decomposition.
+
+This program demonstrates:
+- Top-down design methodology
+- Functional decomposition
+- Clean coding style and structure
+- Separation of concerns between game logic and user interface
+"""
+
+# Global Constants
+BOARD_SIZE = 3
+EMPTY_CELL = ' '
+PLAYER_X = 'X'
+PLAYER_O = 'O'
+
+
+def new_board():
+    """
+    Step 1: Make a board.
+    Creates and returns a new empty 3x3 tic-tac-toe board.
+    
+    Returns:
+        list: A 3x3 grid initialized with empty cells
+    """
+    return [[EMPTY_CELL for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+
+
+def get_o_or_x():
+    """
+    Determine if the user wants to be O or X
+    Prompts the user to choose their symbol and determines turn order.
+    
+    Returns:
+        tuple: (human_player, computer_player, human_goes_first)
+    """
+    print("Welcome to Tic-Tac-Toe!")
+    print("You will be playing against the computer.")
+    
+    while True:
+        choice = input("Would you like to be X or O? ").upper().strip()
+        if choice in [PLAYER_X, PLAYER_O]:
+            human_player = choice
+            computer_player = PLAYER_O if choice == PLAYER_X else PLAYER_X
+            # X traditionally goes first
+            human_goes_first = (human_player == PLAYER_X)
+            
+            print(f"You are '{human_player}' and the computer is '{computer_player}'")
+            if human_goes_first:
+                print("You go first!")
+            else:
+                print("Computer goes first!")
+            
+            return human_player, computer_player, human_goes_first
+        else:
+            print("Please enter either 'X' or 'O'")
+
+
+def play_game(board, human_player, computer_player, human_goes_first):
+    """
+    Play the game until a win or a draw.
+    Main game loop that alternates between human and computer turns.
+    
+    Args:
+        board (list): The game board
+        human_player (str): Human player's symbol ('X' or 'O')
+        computer_player (str): Computer player's symbol ('X' or 'O')
+        human_goes_first (bool): Whether human player goes first
+        
+    Returns:
+        str: The winner ('X', 'O', or 'draw')
+    """
+    current_player = human_player if human_goes_first else computer_player
+    
+    while not game_over(board):
+        display(board)
+        
+        if current_player == human_player:
+            make_human_move(board, current_player)
+        else:
+            make_computer_move(board, current_player)
+        
+        # Check for game end after each move
+        winner = won_game(board)
+        if winner:
+            return winner
+        
+        if is_full(board):
+            return 'draw'
+        
+        # Switch to other player
+        current_player = other_player(current_player, human_player, computer_player)
+    
+    return 'draw'  # Fallback (shouldn't reach here)
+
+
+def print_result(outcome, human_player, computer_player):
+    """
+    Step 4: State the outcome.
+    Displays the final game result to the user.
+    
+    Args:
+        outcome (str): The game result ('X', 'O', or 'draw')
+        human_player (str): Human player's symbol
+        computer_player (str): Computer player's symbol
+    """
+    print("\n" + "="*40)
+    print("           GAME OVER")
+    print("="*40)
+    
+    if outcome == 'draw':
+        print("It's a draw! Well played!")
+    elif outcome == human_player:
+        print("Congratulations! You won!")
+    elif outcome == computer_player:
+        print("Computer wins! Better luck next time!")
+    
+    print("="*40)
+
+
+# Supporting functions for game logic
+
+def display(board):
+    """
+    Display the current board state with coordinates.
+    
+    Args:
+        board (list): The current game board
+    """
+    print("\n   0   1   2")
+    for i in range(BOARD_SIZE):
+        print(f"{i}  {board[i][0]} | {board[i][1]} | {board[i][2]}")
+        if i < 2:
+            print("  -----------")
+    print()
+
+
+def make_human_move(board, current_player):
+    """
+    Handle human player's turn.
+    Prompts for valid input and places the move on the board.
+    
+    Args:
+        board (list): The current game board
+        current_player (str): The current player's symbol
+    """
+    while True:
+        try:
+            move_input = input(f"Your turn ({current_player})! Enter row,col (0-2): ").strip()
+            row, col = map(int, move_input.split(','))
+            
+            if is_valid_move(board, row, col):
+                board[row][col] = current_player
+                break
+            else:
+                print("Invalid move! That position is occupied or out of bounds.")
+                
+        except (ValueError, IndexError):
+            print("Invalid format! Please enter as 'row,col' (e.g., 1,2)")
+
+
+def make_computer_move(board, current_player):
+    """
+    Handle computer player's turn using simple strategy.
+    
+    Args:
+        board (list): The current game board
+        current_player (str): The current player's symbol
+    """
+    print(f"Computer's turn ({current_player})...")
+    
+    # Simple strategy: take first available position
+    for row in range(BOARD_SIZE):
+        for col in range(BOARD_SIZE):
+            if board[row][col] == EMPTY_CELL:
+                board[row][col] = current_player
+                print(f"Computer chooses position {row},{col}")
+                return
+
+
+def is_valid_move(board, row, col):
+    """
+    Check if a move is valid.
+    
+    Args:
+        board (list): The current game board
+        row (int): Row position (0-2)
+        col (int): Column position (0-2)
+        
+    Returns:
+        bool: True if move is valid, False otherwise
+    """
+    return (0 <= row < BOARD_SIZE and 
+            0 <= col < BOARD_SIZE and 
+            board[row][col] == EMPTY_CELL)
+
+
+def game_over(board):
+    """
+    Check if the game has ended (win or draw).
+    
+    Args:
+        board (list): The current game board
+        
+    Returns:
+        bool: True if game is over, False otherwise
+    """
+    return won_game(board) is not None or is_full(board)
+
+
+def won_game(board):
+    """
+    Check if there's a winner on the board.
+    
+    Args:
+        board (list): The current game board
+        
+    Returns:
+        str or None: The winning player ('X' or 'O') or None if no winner
+    """
+    # Check rows
+    for row in board:
+        if row[0] == row[1] == row[2] != EMPTY_CELL:
+            return row[0]
+    
+    # Check columns
+    for col in range(BOARD_SIZE):
+        if board[0][col] == board[1][col] == board[2][col] != EMPTY_CELL:
+            return board[0][col]
+    
+    # Check diagonals
+    if board[0][0] == board[1][1] == board[2][2] != EMPTY_CELL:
+        return board[0][0]
+    
+    if board[0][2] == board[1][1] == board[2][0] != EMPTY_CELL:
+        return board[0][2]
+    
+    return None
+
+
+def is_full(board):
+    """
+    Check if the board is completely filled.
+    
+    Args:
+        board (list): The current game board
+        
+    Returns:
+        bool: True if board is full, False otherwise
+    """
+    for row in board:
+        if EMPTY_CELL in row:
+            return False
+    return True
+
+
+def other_player(current_player, human_player, computer_player):
+    """
+    Switch to the other player.
+    
+    Args:
+        current_player (str): Current player's symbol
+        human_player (str): Human player's symbol
+        computer_player (str): Computer player's symbol
+        
+    Returns:
+        str: The other player's symbol
+    """
+    return computer_player if current_player == human_player else human_player
+
+
+def play_again():
+    """
+    Ask if the player wants to play another game.
+    
+    Returns:
+        bool: True if player wants to play again, False otherwise
+    """
+    while True:
+        choice = input("\nWould you like to play again? (y/n): ").lower().strip()
+        if choice in ['y', 'yes']:
+            return True
+        elif choice in ['n', 'no']:
+            return False
+        else:
+            print("Please enter 'y' for yes or 'n' for no.")
+
+
+def main():
+    """
+    Main function following the top-level pseudocode:
+    1. Make a board
+    2. Determine if the user wants to be 'O' or 'X'
+    3. Play the game until a win or a draw
+    4. State the outcome
+    """
+    print("="*50)
+    print("         WELCOME TO TIC-TAC-TOE!")
+    print("="*50)
+    
+    try:
+        while True:
+            # Step 1: Make a board
+            board = new_board()
+            
+            # Step 2: Determine if the user wants to be 'O' or 'X'
+            human_player, computer_player, human_goes_first = get_o_or_x()
+            
+            # Step 3: Play the game until a win or a draw
+            outcome = play_game(board, human_player, computer_player, human_goes_first)
+            
+            # Display final board
+            display(board)
+            
+            # Step 4: State the outcome
+            print_result(outcome, human_player, computer_player)
+            
+            # Ask if player wants to continue
+            if not play_again():
+                print("\nThanks for playing! Goodbye!")
+                break
+                
+    except KeyboardInterrupt:
+        print("\n\nGame interrupted. Thanks for playing!")
+
+
+if __name__ == "__main__":
+    main()
