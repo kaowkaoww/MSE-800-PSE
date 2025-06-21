@@ -1,0 +1,27 @@
+# Parent class
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+    
+    def introduce(self):
+        print(f"Hi, I'm {self.name}, {self.age} years old.")
+
+# Child class inheriting from Person
+class Student(Person):
+    def __init__(self, name, age, student_id):
+        super().__init__(name, age)  # Initialize parent class attributes
+        self.student_id = student_id
+    
+    # Override the introduce method
+    def introduce(self):
+        print(f"Hi, I'm {self.name}, {self.age} years old, and my student ID is {self.student_id}.")
+
+# Create a Student instance and test
+student = Student("John", 20, 1234)
+student.introduce()
+
+# For comparison, here's how a regular Person would introduce
+print("\nRegular Person introduction:")
+person = Person("Manisa", 30)
+person.introduce()
